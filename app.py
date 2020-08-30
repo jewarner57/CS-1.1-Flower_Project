@@ -14,13 +14,14 @@ class Rainbow:
         self.pensize = 50
 
     def draw(self):
+        """Draws a rainbow using turtle graphics."""
         for color in rainbow_color_list:
             numColors = len(rainbow_color_list)
             scale = (numColors-rainbow_color_list.index(color))/2
             self.drawRay(color, scale)
 
     def drawRay(self, color, ray_size):
-        """Draws a rainbow"""
+        """Draws a colored ray using turtle graphics."""
         drawSteps = 180/self.quality
         xSpeed = (self.quality*ray_size)
         xOffset = ((drawSteps/3)*xSpeed)
@@ -47,7 +48,7 @@ class Rainbow:
         t.setheading(0)
 
     def drawCloudPuff(self):
-        """Draws a randomly sized cloud puff at the current location"""
+        """Draws a randomly sized cloud puff at the current turtle location."""
         t.pensize(self.pensize+randint(10, 40))
         t.pencolor("white")
         t.pendown()
@@ -64,8 +65,7 @@ class FlowerPatch:
         self.pensize = self.width / 15
 
     def add_flowers(self):
-        """Adds five flower objects to the patch"""
-
+        """Adds five flower objects to the patch."""
         petal_length = self.pensize
         petal_size = self.pensize
         offset = 5
@@ -87,17 +87,20 @@ class FlowerPatch:
             self.flowers.append(new_flower)
 
     def draw_flower_patch(self):
-        """Draws the flower patch on the screen using turtlen graphics"""
+        """Draws the flower patch on the screen using turtlen graphics."""
 
+        # draw the dirt patch
         t.goto(self.x, self.y)
         t.pensize(self.pensize + 30)
         t.pencolor("#694508")
 
+        # reset turtle
         t.pendown()
         t.forward(self.width)
         t.setheading(0)
         t.penup()
 
+        # draw flowers in the patch
         for flower in self.flowers:
             flower.draw()
 
@@ -113,7 +116,7 @@ class Flower:
         self.turn_amount = self.get_turn_degrees()
 
     def draw(self):
-        """This function draws a flower and its stem using turtle graphics"""
+        """This function draws a flower and its stem using turtle graphics."""
 
         t.goto(self.x, self.y)
         t.pensize(self.petal_size)
@@ -143,24 +146,34 @@ class Flower:
         t.penup()
 
     def get_turn_degrees(self):
-        """this function gets how many degrees to turn before each petal"""
+        """This function gets how many degrees to turn before each petal."""
         return 360 / self.num_petals
 
 
+# prepare turtle to draw
 t.bgcolor("#34b4eb")
 t.speed("fastest")
 t.hideturtle()
 t.penup()
 
+# draw the rainbow
 rainbow1 = Rainbow(850, -270, 100, 10)
 rainbow1.draw()
 
-box1 = FlowerPatch(230, -250, -300)
-box1.add_flowers()
-box1.draw_flower_patch()
+# draw flower patches
+patch1 = FlowerPatch(230, -250, -300)
+patch1.add_flowers()
+patch1.draw_flower_patch()
 
-box1 = FlowerPatch(430, -100, -130)
-box1.add_flowers()
-box1.draw_flower_patch()
+patch2 = FlowerPatch(430, -100, -130)
+patch2.add_flowers()
+patch2.draw_flower_patch()
+
+# draw flowers
+flower1 = Flower(7, "violet", 30, 10, -300, -150)
+flower1.draw()
+
+flower2 = Flower(8, "yellow", 20, 10, -350, -170)
+flower2.draw()
 
 t.done()
