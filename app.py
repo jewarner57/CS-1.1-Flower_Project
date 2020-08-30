@@ -1,7 +1,58 @@
 import turtle as t
 from random import randint, choice
 
-color_list = ["red", "light blue", "yellow", "blue", "purple", "pink"]
+color_list = ["pink", "red", "yellow", "light blue", "blue", "purple"]
+rainbow_color_list = ["red", "orange", "yellow", "green", "blue", "purple"]
+
+
+class Rainbow:
+    def __init__(self, width, x, y, quality):
+        self.width = width
+        self.x = x
+        self.y = y
+        self.quality = quality
+        self.pensize = 50
+
+    def draw(self):
+        for color in rainbow_color_list:
+            numColors = len(rainbow_color_list)
+            scale = (numColors-rainbow_color_list.index(color))/2
+            self.drawRay(color, scale)
+
+    def drawRay(self, color, ray_size):
+        """Draws a rainbow"""
+        drawSteps = 180/self.quality
+        xSpeed = (self.quality*ray_size)
+        xOffset = ((drawSteps/3)*xSpeed)
+
+        # move and ready turtle
+        t.goto(self.x-xOffset, self.y)
+        t.pensize(self.pensize)
+        t.pencolor(color)
+        t.setheading(90)
+        t.pendown()
+
+        # draw ray
+        widthAdjust = self.width/drawSteps
+        for _ in range(int(drawSteps)-1):
+            t.right(self.quality)
+            t.forward(xSpeed+widthAdjust)
+
+        # draw cloud puffs
+        self.drawCloudPuff()
+        t.goto(self.x-((drawSteps/3)*xSpeed), self.y)
+        self.drawCloudPuff()
+
+        t.penup()
+        t.setheading(0)
+
+    def drawCloudPuff(self):
+        """Draws a randomly sized cloud puff at the current location"""
+        t.pensize(self.pensize+randint(10, 40))
+        t.pencolor("white")
+        t.pendown()
+        t.forward(0)
+        t.penup()
 
 
 class FlowerPatch:
@@ -96,15 +147,19 @@ class Flower:
         return 360 / self.num_petals
 
 
+t.bgcolor("#34b4eb")
 t.speed("fastest")
 t.hideturtle()
 t.penup()
 
-box1 = FlowerPatch(530, -250, 100)
+rainbow1 = Rainbow(850, -270, 100, 10)
+rainbow1.draw()
+
+box1 = FlowerPatch(230, -250, -300)
 box1.add_flowers()
 box1.draw_flower_patch()
 
-box1 = FlowerPatch(530, -250, -100)
+box1 = FlowerPatch(430, -100, -130)
 box1.add_flowers()
 box1.draw_flower_patch()
 
