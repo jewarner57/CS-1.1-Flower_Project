@@ -17,31 +17,31 @@ class Rainbow:
         """Draws a rainbow using turtle graphics."""
         for color in rainbow_color_list:
             numColors = len(rainbow_color_list)
-            scale = (numColors-rainbow_color_list.index(color))/2
+            scale = (numColors - rainbow_color_list.index(color)) / 2
             self.drawRay(color, scale)
 
     def drawRay(self, color, ray_size):
         """Draws a colored ray using turtle graphics."""
-        drawSteps = 180/self.quality
-        xSpeed = (self.quality*ray_size)
-        xOffset = ((drawSteps/3)*xSpeed)
+        drawSteps = 180 / self.quality
+        xSpeed = self.quality * ray_size
+        xOffset = (drawSteps / 3) * xSpeed
 
         # move and ready turtle
-        t.goto(self.x-xOffset, self.y)
+        t.goto(self.x - xOffset, self.y)
         t.pensize(self.pensize)
         t.pencolor(color)
         t.setheading(90)
         t.pendown()
 
         # draw ray
-        widthAdjust = self.width/drawSteps
-        for _ in range(int(drawSteps)-1):
+        widthAdjust = self.width / drawSteps
+        for _ in range(int(drawSteps) - 1):
             t.right(self.quality)
-            t.forward(xSpeed+widthAdjust)
+            t.forward(xSpeed + widthAdjust)
 
         # draw cloud puffs
         self.drawCloudPuff()
-        t.goto(self.x-((drawSteps/3)*xSpeed), self.y)
+        t.goto(self.x - ((drawSteps / 3) * xSpeed), self.y)
         self.drawCloudPuff()
 
         t.penup()
@@ -49,7 +49,7 @@ class Rainbow:
 
     def drawCloudPuff(self):
         """Draws a randomly sized cloud puff at the current turtle location."""
-        t.pensize(self.pensize+randint(10, 40))
+        t.pensize(self.pensize + randint(10, 40))
         t.pencolor("white")
         t.pendown()
         t.forward(0)
@@ -113,10 +113,11 @@ class Flower:
         self.petal_size = petal_size
         self.x = x
         self.y = y
-        self.turn_amount = self.get_turn_degrees()
 
     def draw(self):
         """This function draws a flower and its stem using turtle graphics."""
+
+        turn_amount = self.get_turn_degrees(self.num_petals)
 
         t.goto(self.x, self.y)
         t.pensize(self.petal_size)
@@ -129,13 +130,13 @@ class Flower:
         t.backward(self.petal_length * 2)
 
         t.pencolor(self.color)
-        t.right(self.turn_amount / 2)
+        t.right(turn_amount / 2)
 
         # draw petals
         for _ in range(self.num_petals):
             t.forward(self.petal_length)
             t.backward(self.petal_length)
-            t.right(self.turn_amount)
+            t.right(turn_amount)
 
         # draw center
         t.pencolor("orange")
@@ -145,9 +146,9 @@ class Flower:
         t.setheading(0)
         t.penup()
 
-    def get_turn_degrees(self):
+    def get_turn_degrees(self, num_petals):
         """This function gets how many degrees to turn before each petal."""
-        return 360 / self.num_petals
+        return 360 / num_petals
 
 
 # prepare turtle to draw
